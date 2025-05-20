@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 const api = axios.create({
-    baseURL: 'https://3.137.177.29/api',
+    baseURL: 'https://aitrip.one/api',
     headers: {
         'Content-Type': 'application/json',
     },
