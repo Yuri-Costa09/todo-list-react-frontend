@@ -39,6 +39,7 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const fetchTasks = async () => {
         try {
             const currentUserId = checkUserId();
+            console.log('Fetching tasks for userId:', currentUserId);
             const tasks = await getTasks(currentUserId);
             setTasks(tasks);
         } catch (error) {
@@ -49,6 +50,7 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
     const addTask = async (description: string) => {
         try {
             const currentUserId = checkUserId();
+            console.log('Adding task for userId:', currentUserId);
             const newTask = await createTask({ description, authorId: currentUserId });
             setTasks([...tasks, newTask]);
         } catch (error) {
@@ -58,8 +60,8 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     const toggleTaskCompletion = async (task: Task) => {
         try {
-            const updated = { ...task, completed: !task.completed };
-            await updateTask(task.id, { completed: updated.completed });
+            const updated = { ...task, complete: !task.complete };
+            await updateTask(task.id, { complete: updated.complete });
             setTasks((prevTasks) => prevTasks.map((t) => (t.id === task.id ? updated : t)));
         } catch (error) {
             handleApiError(error as AxiosError);
@@ -68,7 +70,9 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     const deleteTask = async (id: string) => {
         try {
-            await deleteTaskService(id);
+            const currentUserId = checkUserId();
+            console.log('Deleting task:', id, 'for user:', currentUserId);
+            await deleteTaskService(id, currentUserId);
             setTasks((prevTasks) => prevTasks.filter((t) => t.id !== id));
         } catch (error) {
             handleApiError(error as AxiosError);
@@ -77,7 +81,10 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
 
     useEffect(() => {
         if (userId) {
+            console.log('userId changed, fetching tasks for:', userId);
             fetchTasks();
+        } else {
+            console.log('No userId available yet, skipping task fetch');
         }
     }, [userId]);
 

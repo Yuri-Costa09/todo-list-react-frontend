@@ -2,11 +2,17 @@ import api from './api';
 
 interface AuthResponse {
     token: string;
-    userId: string;
+    user: {
+        id: string;
+        name: string;
+        email: string;
+        password_hash: string;
+    };
 }
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
     const response = await api.post<AuthResponse>('/users/login', { email, password_hash: password });
+    console.log('Login response:', response.data); // For debugging
     return response.data;
 };
 

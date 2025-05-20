@@ -27,10 +27,15 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   const login = async (email: string, password: string) => {
     try {
       const response = await loginService(email, password);
+      const userIdFromResponse = response.user.id;
+      
       setToken(response.token);
-      setUserId(response.userId);
+      setUserId(userIdFromResponse);
+      
       localStorage.setItem('token', response.token);
-      localStorage.setItem('userId', response.userId);
+      localStorage.setItem('userId', userIdFromResponse);
+      
+      console.log('Stored userId:', userIdFromResponse);
       navigate('/tasks');
     } catch (error) {
       console.error('Login failed:', error);
@@ -63,3 +68,4 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
   );
 };
 
+ 
