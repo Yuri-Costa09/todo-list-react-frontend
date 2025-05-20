@@ -85,6 +85,7 @@ export const TasksProvider: React.FC<{ children: ReactNode }> = ({ children }) =
             fetchTasks();
         } else {
             console.log('No userId available yet, skipping task fetch');
+            setTasks([]);
         }
     }, [userId]);
 
