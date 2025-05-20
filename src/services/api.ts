@@ -1,7 +1,7 @@
 import axios, { type InternalAxiosRequestConfig } from 'axios';
 
 const api = axios.create({
-    baseURL: 'http://3.137.177.29:3001/api',
+    baseURL: 'https://3.137.177.29/api',
     headers: {
         'Content-Type': 'application/json',
     },
