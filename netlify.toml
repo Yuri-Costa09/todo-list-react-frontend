@@ -1,6 +1,8 @@
 [build]
-  command = "npm i --no-optional && npm run build"
+  command = "ROLLUP_NATIVE_DISABLE=1 npm i && npm run build"
   publish = "dist"
 
 [build.environment]
-  NODE_VERSION = "18" 
+  NODE_VERSION = "16"
+  NPM_FLAGS = "--no-optional --legacy-peer-deps"
+  ROLLUP_NATIVE_DISABLE = "1" 

@@ -11,4 +11,16 @@ export default defineConfig({
       '@': path.resolve(__dirname, './src'),
     },
   },
+  build: {
+    target: 'es2015',
+    // Disable generating source maps which can cause issues in some environments
+    sourcemap: false,
+    rollupOptions: {
+      // Explicitly configure Rollup in a way that avoids optional dependencies
+      external: [],
+      output: {
+        manualChunks: undefined
+      }
+    }
+  }
 })
