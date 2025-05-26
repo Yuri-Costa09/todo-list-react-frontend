@@ -34,7 +34,7 @@ api.interceptors.response.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response && error.response.data.message === 'Invalid token') {
+    if ( error.status === 400 && error.response.data.message === 'Invalid Token') {
       localStorage.removeItem('token');
       window.location.href = '/login';
     }

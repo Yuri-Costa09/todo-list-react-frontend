@@ -1,4 +1,5 @@
 import api from './api';
+import { AxiosError } from 'axios';
 
 interface AuthResponse {
     token: string;
@@ -8,6 +9,10 @@ interface AuthResponse {
         email: string;
         password_hash: string;
     };
+}
+
+interface ErrorResponse {
+    message?: string;
 }
 
 export const login = async (email: string, password: string): Promise<AuthResponse> => {
@@ -27,6 +32,11 @@ export const login = async (email: string, password: string): Promise<AuthRespon
         return response.data;
     } catch (error) {
         clearTimeout(timeout);
+        
+        if ((error as AxiosError).response?.status === 401 || 
+            ((error as AxiosError).response?.data as ErrorResponse)?.message?.includes('Invalid Token')) {
+            localStorage.removeItem('token');
+        }
         throw error;
     }
 
